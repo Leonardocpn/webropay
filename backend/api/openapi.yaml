@@ -1,0 +1,181 @@
+openapi: 3.0.1
+info:
+  title: Webropay test
+  description:
+    This is an API for Webropay test. It displays info about contracts,
+    create a contract, get a list of contracts and edit a specific contract with an
+    id.
+  contact:
+    name: Leonardo Nogueira
+    email: leonardocpn@gmail.com
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Development server
+tags:
+  - name: contract
+    description: Everything about your Contracts
+paths:
+  /contracts:
+    get:
+      tags:
+        - contract
+      summary: Get a list of all contracts
+      description: Get an array of all contracts order by id asc
+      operationId: getContracts
+      responses:
+        "200":
+          description: Successfully pull of contracts list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Contract"
+                x-content-type: application/json
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error: Error when retrieving data from database
+                x-content-type: application/json
+      x-swagger-router-controller: Contract
+  /contract:
+    post:
+      tags:
+        - contract
+      summary: Create a new contract
+      description:
+        Create a new contract in the database informing description in
+        body
+      operationId: postContract
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostContract"
+        required: true
+      responses:
+        "200":
+          description: Successfully create a new contract
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostContractResponse"
+        "400":
+          description: Invalid Contract
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error: Description must be informed
+                x-content-type: application/json
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error: Error when saving data in database
+                x-content-type: application/json
+      x-swagger-router-controller: Contract
+  /contract/{id}:
+    put:
+      tags:
+        - contract
+      summary: Update Contract Status
+      description: Update a contract status with an id in path
+      operationId: updateContract
+      parameters:
+        - name: id
+          in: path
+          description: id of contract that need to be updated, example 123456
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Successfully updated a contract
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EditContractResponse"
+        "400":
+          description: Invalid Contract
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error: Inform a valid contract id in path
+                x-content-type: application/json
+        "404":
+          description: Contract not found
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error: Contract not found
+                x-content-type: application/json
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error: Error in database when update a contract
+                x-content-type: application/json
+      x-swagger-router-controller: Contract
+components:
+  schemas:
+    Contract:
+      properties:
+        id:
+          type: string
+          example: "123456"
+        description:
+          type: string
+          example: Details about a contract
+        status:
+          type: boolean
+          example: true
+      description: Model containing contract info
+    PostContract:
+      properties:
+        description:
+          type: string
+          example: New contract
+      description: Model for post contract
+    PostContractResponse:
+      properties:
+        id:
+          type: string
+          example: "123457"
+        description:
+          type: string
+          example: New contract
+        status:
+          type: boolean
+          example: true
+      description: Model for post contract response
+    EditContractResponse:
+      properties:
+        id:
+          type: string
+          example: "123456"
+        description:
+          type: string
+          example: New contract
+        status:
+          type: boolean
+          example: false
+      description: Model for put contract response

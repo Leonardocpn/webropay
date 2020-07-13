@@ -1,0 +1,23 @@
+{
+  "name": "webropay-test",
+  "version": "1.0.0",
+  "description": "This is an API for Webropay test. It displays info about contracts, create a contract, get a list of contracts and edit a specific contract with an id.",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "npm install",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "swagger"
+  ],
+  "license": "Unlicense",
+  "private": true,
+  "dependencies": {
+    "connect": "^3.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "js-yaml": "^3.3.0",
+    "oas3-tools": "^2.0.2",
+    "pg": "^8.3.0"
+  }
+}
