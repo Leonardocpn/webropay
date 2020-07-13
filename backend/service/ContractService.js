@@ -32,7 +32,6 @@ exports.getContracts = function () {
  **/
 exports.postContract = function (body) {
   return new Promise(function (resolve, reject) {
-    console.log(typeof body.status);
     if (!body || !body.description) {
       const response = respondWithCode(400, {
         message: "Invalid Contract, inform description",
@@ -45,7 +44,6 @@ exports.postContract = function (body) {
       [body.description, true]
     )
       .then((res) => {
-        console.log(res);
         return resolve(res.rows);
       })
       .catch((err) => {
@@ -78,7 +76,6 @@ exports.updateContract = function (id) {
       [id]
     )
       .then((res) => {
-        console.log(res.rows);
         if (res.rows.length === 0) {
           const response = respondWithCode(404, {
             message: "Contract not found",
